@@ -40,7 +40,7 @@ wchar_t case_string[20];
 
 HWND adder, apploa, applob, addar;
 
-ofstream imelda;
+ofstream file_output;
 
 // Forward declarations of functions included in this code module:
 void                getfile(int casetype);
@@ -88,67 +88,12 @@ void addtocasearray(int typenum)
 void addtocasestack(char case_[])
 {
     nets = case_;
-    if (nets == "Murder") {
-        addtocasearray(0);
-    }
-    else {
-        if (nets == "Felony") {
-            addtocasearray(1);
-        }
-        else {
-            if (nets == "Stealing") {
-                addtocasearray(2);
-            }
-            else {
-                if (nets == "Special Stealing") {
-                    addtocasearray(3);
-                }
-                else {
-                    if (nets == "Rape") {
-                        addtocasearray(4);
-                    }
-                    else {
-                        if (nets == "Felony-wit-kidnap") {
-                            addtocasearray(5);
-                        }
-                        else {
-                            if (nets == "kidnapping") {
-                                addtocasearray(6);
-                            }
-                            else {
-                                if (nets == "Reckless-driving") {
-                                    addtocasearray(7);
-                                }
-                                else {
-                                    if (nets == "Reckless-driving-with-death") {
-                                        addtocasearray(8);
-                                    }
-                                    else {
-                                        if (nets == "Possession-of-stolen-property") {
-                                            addtocasearray(9);
-                                        }
-                                        else {
-                                            if (nets == "Felony-wit-robbery") {
-                                                addtocasearray(10);
-                                            }
-                                            else {
-                                                if (nets == "Robbery") {
-                                                    addtocasearray(11);
-                                                }
-                                                else {
-                                                    if (nets == "Manslaughter") {
-                                                        addtocasearray(12);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+    string example_cases[13] = { "Murder" , "Felony", "Stealing", "Special Stealing","Rape", "Felony-wit-kidnap", "kidnapping", "Reckless-driving","Reckless-driving-with-death", "Possession-of-stolen-property", "Felony-wit-robbery", "Robbery", "Manslaughter" };
+    //go through each of the strings and compare them with the case 
+    for (size_t i = 0; i < sizeof(example_cases); i++)
+    {
+        if (example_cases[i] == nets) {
+            addtocasearray(i);
         }
     }
 }
@@ -340,76 +285,76 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             GetWindowText(apple, aname, 20);wcstombs_s(&winer, caname, aname, 10);
             GetWindowText(evion, astate, 10); wcstombs_s(&winer, castate, astate, 10);
 
-            imelda.open("letters.txt", ios::out);
-            imelda << "                              IN THE HIGH COURT OF JUSTICE" << endl;
-            imelda << "                               OYO STATE OF NIGERIA" << endl;
-            imelda << "                                 IN THE IBADAN JUDICIAL DIVISION" << endl;
-            imelda << "                               HOLDEN AT IBADAN" << endl;
-            imelda << "                                                                      CHARGE NO……………………………" << endl;
-            imelda << "                                                                       COURT NO………………………………" << endl;
-            imelda << "BETWEEN" << endl;
-            imelda << "THE STATE......................COMPLAINANT" << endl;
-            imelda << caname << " " << casname << "......................DEFENDANT" << endl;
-            imelda << "At the session holden at " << castate << " on the…… day of ……… " << year
+            file_output.open("letters.txt", ios::out);
+            file_output << "                              IN THE HIGH COURT OF JUSTICE" << endl;
+            file_output << "                               OYO STATE OF NIGERIA" << endl;
+            file_output << "                                 IN THE IBADAN JUDICIAL DIVISION" << endl;
+            file_output << "                               HOLDEN AT IBADAN" << endl;
+            file_output << "                                                                      CHARGE NO……………………………" << endl;
+            file_output << "                                                                       COURT NO………………………………" << endl;
+            file_output << "BETWEEN" << endl;
+            file_output << "THE STATE......................COMPLAINANT" << endl;
+            file_output << caname << " " << casname << "......................DEFENDANT" << endl;
+            file_output << "At the session holden at " << castate << " on the…… day of ……… " << year
                 << " upon the complaint of the Director of Public Prosecutions on behalf of the State, the accused person;" << endl;
-            imelda << caname << " " << casname << endl;
-            imelda << " Is charged with the following offences :" << endl;
-            imelda << "" << endl;
+            file_output << caname << " " << casname << endl;
+            file_output << " Is charged with the following offences :" << endl;
+            file_output << "" << endl;
             int count;
             for (count = 0;count < sizeof(caseamt);count++) {
                 if (caseamt[count] == NULL) {
                     break;
                 }
                 else {
-                    imelda << "COUNT " << count + 1 << endl;
+                    file_output << "COUNT " << count + 1 << endl;
                     getfile(caseamt[count]);
-                    imelda << "That you," << caname << " " << casname << " " << cbfacts << " and thereby committed " << law_for_crime << endl;
+                    file_output << "That you," << caname << " " << casname << " " << cbfacts << " and thereby committed " << law_for_crime << endl;
                 }
             }
 
-            imelda << "                                                                                               Collins Deborah O. (Mrs) " << endl;
-            imelda << "                                                                                               Senior State Counsel " << endl;
-            imelda << "                                                                                               For : Hon.Attorney - General of Oyo State " << endl;
+            file_output << "                                                                                               Collins Deborah O. (Mrs) " << endl;
+            file_output << "                                                                                               Senior State Counsel " << endl;
+            file_output << "                                                                                               For : Hon.Attorney - General of Oyo State " << endl;
 
 
-            imelda << "The Chief Registrar," << endl;
-            imelda << "High Court of Justice," << endl;
-            imelda << "Ring Road," << endl;
-            imelda << "Ibadan." << endl;
-            imelda << "                                                   FILING OF COMPLAINT" << endl;
-            imelda << "Please find herewith attached three(4) copies of the complaint papers with proof of evidence in support thereof for filing and service on the accused person named therein." << endl;
-            imelda << "" << endl;
-            imelda << caname << " " << casname << endl;
+            file_output << "The Chief Registrar," << endl;
+            file_output << "High Court of Justice," << endl;
+            file_output << "Ring Road," << endl;
+            file_output << "Ibadan." << endl;
+            file_output << "                                                   FILING OF COMPLAINT" << endl;
+            file_output << "Please find herewith attached three(4) copies of the complaint papers with proof of evidence in support thereof for filing and service on the accused person named therein." << endl;
+            file_output << "" << endl;
+            file_output << caname << " " << casname << endl;
             //TO DO: ADD DEFENDANT NAME GENERATOR HERE
-            imelda << "" << endl;
-            imelda << "2. We look forward to receiving the hearing notice in due course." << endl;
-            imelda << "                                                                                                   ……………………………….." << endl;
-            imelda << "                                                                                                   Collins Deborah O. (Mrs)" << endl;
-            imelda << "                                                                                                   Senior State Counsel" << endl;
-            imelda << "                                                                                                   For : Hon.Attorney - General of Oyo State." << endl;
-            imelda << " The Assistant Commissioner of Police, " << endl;
-            imelda << " State C.I.I.D., " << endl;
-            imelda << " Iyaganku, Ibadan. " << endl;
-            imelda << " LEGAL ADVICE " << endl;
-            imelda << " CR : 317 / 2018 " << endl;
-            imelda << " COMMISSIONER OF POLICE " << endl;
-            imelda << " VS " << endl;
-            imelda << caname << " " << casname << endl;
-            imelda << "Please refer to your letter dated 3 / 12 / 2018 with Ref.No.CB : 3514 / OY / X / LEG / VOL.70 / 204, seeking legal advice in respect of the case named above. " << endl;
-            imelda << " 2. The brief facts of the case is that " << cbfacts << endl;
-            imelda << "3. Having carefully gone through the duplicate case file and evidence contained therein, it is hereby advised that page B1" << caname << " " << casname << " should be charged with the following offences : " << endl;
+            file_output << "" << endl;
+            file_output << "2. We look forward to receiving the hearing notice in due course." << endl;
+            file_output << "                                                                                                   ……………………………….." << endl;
+            file_output << "                                                                                                   Collins Deborah O. (Mrs)" << endl;
+            file_output << "                                                                                                   Senior State Counsel" << endl;
+            file_output << "                                                                                                   For : Hon.Attorney - General of Oyo State." << endl;
+            file_output << " The Assistant Commissioner of Police, " << endl;
+            file_output << " State C.I.I.D., " << endl;
+            file_output << " Iyaganku, Ibadan. " << endl;
+            file_output << " LEGAL ADVICE " << endl;
+            file_output << " CR : 317 / 2018 " << endl;
+            file_output << " COMMISSIONER OF POLICE " << endl;
+            file_output << " VS " << endl;
+            file_output << caname << " " << casname << endl;
+            file_output << "Please refer to your letter dated 3 / 12 / 2018 with Ref.No.CB : 3514 / OY / X / LEG / VOL.70 / 204, seeking legal advice in respect of the case named above. " << endl;
+            file_output << " 2. The brief facts of the case is that " << cbfacts << endl;
+            file_output << "3. Having carefully gone through the duplicate case file and evidence contained therein, it is hereby advised that page B1" << caname << " " << casname << " should be charged with the following offences : " << endl;
             for (int stave = 0; stave <= no_of_charges; stave++) {
                 //TO DO: ADD CASE GENERATOR HERE
             }
-            imelda << " 4. Your duplicate case is hereby retained with us for record purposesand to enable us prepare as well as necessary papers at the High Court of Justice, Oyo State towards the prosecution of this case. " << endl;
+            file_output << " 4. Your duplicate case is hereby retained with us for record purposesand to enable us prepare as well as necessary papers at the High Court of Justice, Oyo State towards the prosecution of this case. " << endl;
 
 
 
-            imelda << "                                                                                               Collins Deborah O. (Mrs) " << endl;
-            imelda << "                                                                                               Senior State Counsel " << endl;
-            imelda << "                                                                                               For : Hon.Attorney - General of Oyo State " << endl;
+            file_output << "                                                                                               Collins Deborah O. (Mrs) " << endl;
+            file_output << "                                                                                               Senior State Counsel " << endl;
+            file_output << "                                                                                               For : Hon.Attorney - General of Oyo State " << endl;
 
-            imelda.close();
+            file_output.close();
             MessageBox(hWnd, L"File Created Successfully", L"FILE CREATION", MB_ICONINFORMATION);
             break;
         case GENDERCHOICE:
